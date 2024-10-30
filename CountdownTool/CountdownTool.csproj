@@ -171,6 +171,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel.cs" />
     <Page Include="PresentationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -181,10 +182,18 @@
     </Compile>
     <Compile Include="Classes\ActionItem.cs" />
     <Compile Include="Classes\Countdown.cs" />
+    <Compile Include="Converter\RunningToStringConverter.cs" />
+    <Compile Include="Converter\SignToStringConverter.cs" />
+    <Compile Include="Converter\TimeSpanRoundUpConverter.cs" />
+    <Compile Include="Converter\UtcToLocalConverter.cs" />
     <Compile Include="PresentationWindow.xaml.cs">
       <DependentUpon>PresentationWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

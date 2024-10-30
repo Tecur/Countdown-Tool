@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:System="clr-namespace:System;assembly=mscorlib">
+    
+    <FontFamily x:Key="CountdownFont">Segoe UI</FontFamily>
+    <System:Double x:Key="CountdownFontSize">48</System:Double>
+    <FontWeight x:Key="CountdownFontWeight">Bold</FontWeight>
+</ResourceDictionary>

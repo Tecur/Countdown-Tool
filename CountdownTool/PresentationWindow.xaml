@@ -4,17 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CountdownTool"
+        xmlns:class="clr-namespace:CountdownTool.Classes"
+        xmlns:convert="clr-namespace:CountdownTool.Converter"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" 
-        d:DataContext="{d:DesignInstance Type=local:ViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
-        <local:UtcToLocalConverter x:Key="utcToLocalConverter1"/>
-        <local:TimeSpanRoundUpConverter x:Key="timeSpanRoundUpConverter1"/>
+        <convert:UtcToLocalConverter x:Key="utcToLocalConverter1"/>
+        <convert:TimeSpanRoundUpConverter x:Key="timeSpanRoundUpConverter1"/>
         <s:TimeSpan x:Key="timeSpanRoundTo1">00:00:00.001</s:TimeSpan>
-        <local:RunningToStringConverter x:Key="runningToStringConverter1"/>
-        <local:SignToStringConverter x:Key="signToStringConverter1"/>
+        <convert:RunningToStringConverter x:Key="runningToStringConverter1"/>
+        <convert:SignToStringConverter x:Key="signToStringConverter1"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -24,7 +25,26 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <ListView d:ItemsSource="{d:SampleData ItemCount=5}" Grid.Column="0">
+        <ListView d:ItemsSource="{d:SampleData ItemCount=3}" ItemsSource="{Binding Items}" Grid.Column="0">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="class:ActionItem">
+                    <ui:Card AutomationProperties.Name="{Binding Title}">
+                        <ui:Card.Background>
+                            <SolidColorBrush Color="{Binding Color}"/>
+                        </ui:Card.Background>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Title}"/>
+                                    <TextBlock Text="{Binding Description}"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <ProgressBar Margin="0,12"/>
+                        </StackPanel>
+                    </ui:Card>
+                    
+                </DataTemplate>
+            </ListView.ItemTemplate>
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
@@ -40,15 +60,18 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
-            <Label Grid.Column="0" Content="{Binding RemainingTime, Converter={StaticResource signToStringConverter1}}"
-               HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Column="1" Content="{Binding RemainingTime,
+            <Label FontSize="{DynamicResource CountdownFontSize}" FontFamily="{DynamicResource CountdownFont}" Grid.Column="0" Content="{Binding Countdown.RemainingTime, Converter={StaticResource signToStringConverter1}}"
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                   d:Content="T- " FontWeight="{DynamicResource CountdownFontWeight}" HorizontalAlignment="Right"/>
+            <Label Grid.Column="1" Content="{Binding Countdown.RemainingTime,
                Converter={StaticResource timeSpanRoundUpConverter1},
                ConverterParameter={StaticResource timeSpanRoundTo1}}" 
                ContentStringFormat="hh\:mm\:ss\:fff"
-               HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Column="2" Content="{Binding Running, Converter={StaticResource runningToStringConverter1}}"
-               HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                   d:Content="00:00:00:000" FontFamily="{DynamicResource CountdownFont}" FontSize="{DynamicResource CountdownFontSize}" FontWeight="{DynamicResource CountdownFontWeight}"/>
+            <Label FontWeight="{DynamicResource CountdownFontWeight}" Grid.Column="2" Content="{Binding Countdown.Running, Converter={StaticResource runningToStringConverter1}}"
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                   d:Content=" H" FontFamily="{DynamicResource CountdownFont}" FontSize="{DynamicResource CountdownFontSize}" HorizontalAlignment="Left"/>
         </Grid>
     </Grid>
 </Window>
